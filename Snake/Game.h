@@ -3,22 +3,21 @@
 
 #include <vector>
 
-#include "BodyPart.h"
+#include "Body.h"
 
 class Game {
  private:
   unsigned int xSize;
-  unsigned int ySize;
+	 unsigned int ySize;
 
-  std::vector<BodyPart> body;
+  Body body;
 
  public:
   Game() {}
   ~Game() {}
 
-  const std::vector<BodyPart> & getBody() const { return body; }
-  bool step(const int xDir, const int yDir) {}
+  const Body & getBody() const { return *&body; }
+  bool step(const int direction);
 }; // Game
 
 #endif // __GAME_H__
-
