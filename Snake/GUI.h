@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Game.h"
-#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 namespace Snake {
 
@@ -32,8 +33,12 @@ namespace Snake {
       // Setup game
       game = new Game(this->gridDims.X, this->gridDims.Y);
       
+      srand(time(0));
+
       // Setup graphics
-      graphics = gcnew List<PictureBox^>();
+      snakeGraphics = gcnew List<PictureBox^>();
+      foodGraphics = gcnew PictureBox();
+      this->Controls->Add(foodGraphics);
     }
 
   protected:
@@ -50,12 +55,23 @@ namespace Snake {
 
   private: 
 
+    //
+    // Handlers
+    //
+
     // Update the screen at a frame update
     void FrameUpdate(Object^ sender, EventArgs^ e);
 
     // Handle all keyboard input
     void KeyHandler(Object^ sender, KeyEventArgs^ e);
     
+    // Handle mouse press
+    void OnClickReset(Object^ sender, MouseEventArgs^ e);
+
+    //
+    // Properties
+    //
+
     System::ComponentModel::IContainer^  components;
     /// <summary>
     /// Required designer variable.
@@ -63,22 +79,27 @@ namespace Snake {
 
     // The timer that performs game update
     System::Windows::Forms::Timer^  gameTimer;
-    unsigned int gameTickPeriod = 200; // The period of the game timer, in ms 
+    unsigned int gameTickPeriod = 200; // The period of the game timer, in ms
+    Label^ msgBox;
 
     // The main game object
     Game* game;
+    unsigned int currentDirection = 0;     // The current direction input
 
     // All graphics objects present in the GUI
-    List<PictureBox^>^ graphics;
-
-    // The current direction input
-    unsigned int currentDirection = 0;
+    List<PictureBox^>^ snakeGraphics;
+    PictureBox^ foodGraphics;
+    
 
     // GUI Sizes
     Point windowSize = Point(640, 640); // Window size in pixels
     Point gridDims = Point(20, 20);     // Grid dimensions
     Point gridSize;                     // Grid size, computed to fit the window
 
+    // Resources
+    String^ snakeResource = gcnew String("./Resources/body.bmp");
+    String^ foodResource = gcnew String("./Resources/food.bmp");
+    String^ gameOverText = gcnew String("Game Over!\n\nClick to restart.");
 
 #pragma region Windows Form Designer generated code
     /// <summary>
@@ -91,17 +112,28 @@ namespace Snake {
       this->gameTimer = (gcnew System::Windows::Forms::Timer(this->components));
       this->SuspendLayout();
       // 
-      // timer1
+      // gameTimer
       // 
       this->gameTimer->Tick += gcnew System::EventHandler(this, &GUI::FrameUpdate);
       this->gameTimer->Interval = gameTickPeriod;
       this->gameTimer->Start();
+      //
+      // msgBox
+      //
+      this->msgBox = (gcnew Label());
+      this->msgBox->Location = Point(0,0);
+      this->msgBox->Size = System::Drawing::Size(windowSize.X, windowSize.Y);
+      this->msgBox->Enabled = false;
+      this->msgBox->Visible = false;
+      this->msgBox->TextAlign = ContentAlignment::MiddleCenter;
+      this->msgBox->MouseClick += gcnew MouseEventHandler(this, &GUI::OnClickReset);
+      this->Controls->Add(this->msgBox);
       // 
       // GUI
       // 
       this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
       this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-      this->ClientSize = System::Drawing::Size(480, 480);
+      this->ClientSize = System::Drawing::Size(windowSize.X, windowSize.Y);
       this->Name = L"GUI";
       this->Text = L"GUI";
       this->ResumeLayout(false);

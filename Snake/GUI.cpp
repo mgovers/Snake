@@ -8,56 +8,54 @@ namespace Snake {
   // Update the screen on a frame clock trigger
   void GUI::FrameUpdate(Object^ sender, EventArgs^ e)
   {
-
-    this->game->step(currentDirection);
+    if (!this->game->step(currentDirection))
+    {
+      // Invalid move, game over!
+      this->msgBox->Enabled = true;
+      this->msgBox->Visible = true;
+      this->msgBox->Text = gameOverText;
+      // Stop the game timer
+      this->gameTimer->Enabled = false;
+      this->gameTimer->Stop();
+      return;
+    }
 
     // If body parts have been added in this step, add graphic objects for them
-    unsigned int nrNewParts = this->game->getBody().size() - this->graphics->Count;
+    unsigned int nrNewParts = this->game->getBody().size() - this->snakeGraphics->Count;
     for (unsigned int i = 0; i < nrNewParts; i++)
     {
       PictureBox^ newObj = gcnew PictureBox();
-      newObj->Image = gcnew Bitmap(Image::FromFile("./Resources/box.bmp"), gridSize.X, gridSize.Y);
+      newObj->Image = gcnew Bitmap(Image::FromFile(this->snakeResource), gridSize.X, gridSize.Y);
       this->Controls->Add(newObj);
-      this->graphics->Add(newObj);
+      this->snakeGraphics->Add(newObj);
     }
 
     // Update head position
-    this->graphics[0]->Location = Point(
+    this->snakeGraphics[0]->Location = Point(
       this->game->getBody()[0].x * gridSize.X,
       this->game->getBody()[0].y * gridSize.Y);
 
-    this->graphics[0]->Update();
-    this->graphics[0]->Refresh();
+    this->snakeGraphics[0]->Update();
+    this->snakeGraphics[0]->Refresh();
 
-    /*if (currentDirection == 0)
+    // Check for new food spawn
+    if (this->game->getTargets().size() == 0)
     {
-      this->graphics[0]->Location = Point(
-        this->graphics[0]->Location.X + gridSize.X, 
-        this->graphics[0]->Location.Y);
-    }
-    else if (currentDirection == 1)
-    {
-      this->graphics[0]->Location = Point(
-        this->graphics[0]->Location.X, 
-        this->graphics[0]->Location.Y - gridSize.Y);
-    }
-    else if (currentDirection == 2)
-    {
-      this->graphics[0]->Location = Point(
-        this->graphics[0]->Location.X - gridSize.X, 
-        this->graphics[0]->Location.Y);
-    }
-    else if (currentDirection == 3)
-    {
-      this->graphics[0]->Location = Point(
-        this->graphics[0]->Location.X, 
-        this->graphics[0]->Location.Y + gridSize.Y);
-    }
-    this->graphics[0]->Update();
-    this->graphics[0]->Refresh();
-    */
+      GridPos randPos;
+      do {
+        randPos = { 
+          (int)round(rand() % gridDims.X),
+          (int)round(rand() % gridDims.Y) 
+        };
+      } 
+      while (!this->game->addNewTarget(randPos));
 
-    
+      foodGraphics->Location = Point(
+        this->game->getTargets()[0].x * gridSize.X, 
+        this->game->getTargets()[0].y * gridSize.Y);
+      foodGraphics->Image = gcnew Bitmap(Image::FromFile(this->foodResource), gridSize.X, gridSize.Y);
+    }
+
   }
 
   // Handle keyboard input
@@ -79,6 +77,21 @@ namespace Snake {
       break;
     }
 
+  }
+
+  void GUI::OnClickReset(Object^ sender, MouseEventArgs^ e)
+  {
+    // Reset game
+    for each(PictureBox^ obj in snakeGraphics)
+      delete obj;
+    this->snakeGraphics = gcnew List<PictureBox^>();
+    
+    this->game = new Game(gridDims.X,gridDims.Y);
+    this->gameTimer->Start();
+    this->currentDirection = 0;
+    // Suppress UI
+    this->msgBox->Enabled = false;
+    this->msgBox->Visible = false;
   }
 
     // Start the application

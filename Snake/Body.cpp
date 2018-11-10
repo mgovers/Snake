@@ -39,9 +39,9 @@ GridPos Body::getNewHeadPos(const int direction) const {
 
   switch (direction) {
   case 0: { ++newHeadPos.x; break; }
-  case 1: { ++newHeadPos.y; break; }
+  case 1: { --newHeadPos.y; break; }
   case 2: { --newHeadPos.x; break; }
-  case 3: { --newHeadPos.y; break; }
+  case 3: { ++newHeadPos.y; break; }
   default: { } // nothing happens
   }
   
