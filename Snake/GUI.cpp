@@ -10,5 +10,8 @@ void main(cli::array<String^>^ args)
 	Application::SetCompatibleTextRenderingDefault(false);
 
 	Snake::GUI gui;
+ Timer^ timer = gcnew Timer();
+ timer->Tick += gcnew EventHandler(%gui,&Snake::GUI::UpdateScreen);
+
 	Application::Run(%gui);
 }
