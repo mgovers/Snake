@@ -8,8 +8,11 @@ struct GridPos {
   int y = 0;
 };
 
+bool operator==(const GridPos& pos1, const GridPos& pos2);
+
 
 typedef GridPos BodyPart;
+
 
 
 class Body {
@@ -18,7 +21,6 @@ class Body {
   std::vector<BodyPart> body;
   
   unsigned int head = 0;
-  std::vector<BodyPart>::iterator headIt = body.begin();
 
   int direction = 0; // 0: move right, 1: move down, 2: move left, 3: move up
 
@@ -28,15 +30,16 @@ class Body {
 
  public:
   
-  Body(const int& x0=0, const int& y0=0, const int& dir0=0, const unsigned int& initialSize=0);
+  Body(const GridPos& initialPos = { 0, 0 }, const int& initialDirection = 0, const unsigned int& initialSize = 0);
 
   unsigned int size() const { return body.size(); }
   GridPos getNewHeadPos(const int direction) const;
+  bool inBody(const GridPos& pos) const;
 
   const BodyPart& operator[](unsigned int idx) const;
         BodyPart& operator[](unsigned int idx);
 
-  bool move  (const int direction);
+  void move  (const int direction);
   void extend(const int direction);
 };
 

@@ -1,10 +1,11 @@
 #include "Body.h"
 
-Body::Body(const int& x0 = 0, const int& y0 = 0, const int& dir0 = 0, const unsigned int& initialSize = 3) {
-  direction = dir0;
-  body.push_back(BodyPart{ x0, y0 });
+bool operator==(const GridPos& pos1, const GridPos& pos2) { return (pos1.x == pos2.x && pos1.y == pos2.y); }
+
+Body::Body(const GridPos& initialPos, const int& initialDirection, const unsigned int& initialSize) {
+  direction = initialDirection;
+  body.push_back(BodyPart{ initialPos.x, initialPos.y });
   head = 0;
-  headIt = body.begin();
 
   for (unsigned int i = 0; i < initialSize; ++i) {
     extend(direction);
@@ -12,14 +13,14 @@ Body::Body(const int& x0 = 0, const int& y0 = 0, const int& dir0 = 0, const unsi
 }
 
 const BodyPart& Body::operator[](unsigned int idx) const {
-  return body[idx];
+  return body[(head + idx) % body.size()];
 }
 
 BodyPart& Body::operator[](unsigned int idx) {
-  return body[idx];
+  return body[(head + idx) % body.size()];
 }
 
-bool Body::move(const int direction) {
+void Body::move(const int direction) {
   updateHead();
 
   GridPos newHeadPos = getNewHeadPos(direction);
@@ -29,7 +30,7 @@ bool Body::move(const int direction) {
 
 void Body::extend(const int direction) {
   GridPos newHeadPos = getNewHeadPos(direction);
-  body.insert(headIt, BodyPart{ newHeadPos.x, newHeadPos.y } );
+  body.insert(body.begin() + head, BodyPart{ newHeadPos.x, newHeadPos.y } );
 }
 
 GridPos Body::getNewHeadPos(const int direction) const {
@@ -47,12 +48,21 @@ GridPos Body::getNewHeadPos(const int direction) const {
   return newHeadPos;
 }
 
+bool Body::inBody(const GridPos& pos) const {
+  bool found = false;
+  for (auto& bodyPart : body) {
+    if (pos == bodyPart) {
+      found = true;
+      break;
+    }
+  }
+  return found;
+}
+
 void Body::updateHead() {
   if (head > 0) {
     --head;
-    --headIt;
   } else {
-    head   = body.size() - 1;
-    headIt = body.end() - 1;
+    head = body.size() - 1;
   }
 }

@@ -79,10 +79,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Body.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BodyPart.h" />
+    <ClInclude Include="Body.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GUI.h">
       <FileType>CppHeader</FileType>
