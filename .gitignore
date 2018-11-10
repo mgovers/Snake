@@ -6,3 +6,10 @@ Snake/Debug/
 Snake.sdf
 Snake.opensdf
 Snake.v12.suo
+
+#vcxproj
+Snake/Snake.vcxproj
+Snake/Snake.vcxproj.filters
+
+#vs
+.vs/
