@@ -69,6 +69,13 @@ namespace Snake {
     void OnClickReset(Object^ sender, MouseEventArgs^ e);
 
     //
+    // Methods
+    //
+
+    Point IndexToPixel(Point pixel);
+    Point IndexToPixel(BodyPart pos);
+
+    //
     // Properties
     //
 

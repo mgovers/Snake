@@ -5,6 +5,18 @@ using namespace System::Windows::Forms;
 
 namespace Snake {
 
+  Point GUI::IndexToPixel(Point pixel)
+  {
+    return Point(
+      pixel.X * this->gridSize.X,
+      pixel.Y * this->gridSize.Y);
+  }
+
+  Point GUI::IndexToPixel(BodyPart pos)
+  {
+    return IndexToPixel(Point(pos.x, pos.y));
+  }
+
   // Update the screen on a frame clock trigger
   void GUI::FrameUpdate(Object^ sender, EventArgs^ e)
   {
@@ -21,19 +33,19 @@ namespace Snake {
     }
 
     // If body parts have been added in this step, add graphic objects for them
+    // (existing graphics objects are only updated)
     unsigned int nrNewParts = this->game->getBody().size() - this->snakeGraphics->Count;
     for (unsigned int i = 0; i < nrNewParts; i++)
     {
       PictureBox^ newObj = gcnew PictureBox();
       newObj->Image = gcnew Bitmap(Image::FromFile(this->snakeResource), gridSize.X, gridSize.Y);
+      newObj->Location = IndexToPixel(this->game->getBody()[0]);
       this->Controls->Add(newObj);
       this->snakeGraphics->Add(newObj);
     }
 
     // Update head position
-    this->snakeGraphics[0]->Location = Point(
-      this->game->getBody()[0].x * gridSize.X,
-      this->game->getBody()[0].y * gridSize.Y);
+    this->snakeGraphics[0]->Location = IndexToPixel(this->game->getBody()[0]);
 
     this->snakeGraphics[0]->Update();
     this->snakeGraphics[0]->Refresh();
@@ -50,9 +62,7 @@ namespace Snake {
       } 
       while (!this->game->addNewTarget(randPos));
 
-      foodGraphics->Location = Point(
-        this->game->getTargets()[0].x * gridSize.X, 
-        this->game->getTargets()[0].y * gridSize.Y);
+      foodGraphics->Location = IndexToPixel(this->game->getTargets()[0]);
       foodGraphics->Image = gcnew Bitmap(Image::FromFile(this->foodResource), gridSize.X, gridSize.Y);
     }
 
