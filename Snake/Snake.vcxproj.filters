@@ -4,11 +4,14 @@
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="AI_Easy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Body.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="AI.h" />
+    <ClInclude Include="AI_Easy.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI.resx" />

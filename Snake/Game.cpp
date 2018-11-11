@@ -1,5 +1,4 @@
 #include "Game.h"
-
 #include "Body.h"
 
 bool Game::step(const int direction) {
@@ -20,6 +19,10 @@ bool Game::testPos(const GridPos& pos) const {
 
 bool Game::testBody(const GridPos& pos) const {
   return !(body.inBody(pos));
+}
+
+bool Game::testEmpty(const GridPos &pos) const {
+  return (testPos(pos) && testBody(pos));
 }
 
 unsigned int Game::getTargetIdx(const GridPos& pos) const  {
@@ -58,4 +61,29 @@ bool Game::addNewTarget(const GridPos& pos) {
     success = true;
   }
   return success;
+}
+
+unsigned int Game::getXSize() { return xSize; }
+unsigned int Game::getYSize() { return ySize; }
+
+void Game::getSize(unsigned int& sizeX, unsigned int &sizeY)
+{
+  sizeX = xSize;
+  sizeY = ySize;
+}
+
+void Game::reset()
+{
+  this->body = Body();
+  this->targets.clear();
+}
+
+int Game::computeAIMove()
+{
+  if (!this->ai)
+  {
+    // Error: no AI available
+    return -1;
+  }
+  return this->ai->findMove(*this);
 }

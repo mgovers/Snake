@@ -80,11 +80,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AI_Easy.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AI.h" />
+    <ClInclude Include="AI_Easy.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GUI.h">

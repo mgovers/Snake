@@ -21,9 +21,10 @@ BodyPart& Body::operator[](unsigned int idx) {
 }
 
 void Body::move(const int direction) {
+  GridPos newHeadPos = getNewHeadPos(direction);
+
   updateHead();
 
-  GridPos newHeadPos = getNewHeadPos(direction);
   body[head].x = newHeadPos.x;
   body[head].y = newHeadPos.y;
 }

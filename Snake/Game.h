@@ -4,17 +4,20 @@
 #include <vector>
 
 #include "Body.h"
+#include "AI.h"
 
 class Game {
  private:
   unsigned int xSize=0;
-	 unsigned int ySize=0;
+	unsigned int ySize=0;
 
+  // The snake body
   Body body;
+  // The food pieces
   std::vector<GridPos> targets;
+  // The AI
+  AI* ai;
 
-  bool testPos (const GridPos& pos) const;
-  bool testBody(const GridPos& pos) const;
   unsigned int getTargetIdx(const GridPos& pos) const;
 
   void Game::doMove(const int direction);
@@ -23,15 +26,30 @@ class Game {
 
  public:
   Game(const unsigned int xSize_, const unsigned int ySize_) :
-    xSize(xSize_), ySize(ySize_)
-    {}
-  ~Game() {}
+    xSize(xSize_), ySize(ySize_) {}
+  Game(const unsigned int xSize_, const unsigned int ySize_, AI* ai_) :
+    xSize(xSize_), ySize(ySize_), ai(ai_) {}
+  ~Game() { delete ai; }
+
+  enum AITYPE
+  {
+    EASY = 0
+  };
 
   const Body&                 getBody   () const { return *&body;    }
   const std::vector<GridPos>& getTargets() const { return *&targets; }
 
+  int computeAIMove();
   bool step(const int direction);
   bool addNewTarget(const GridPos& pos);
+  void getSize(unsigned int& sizeX, unsigned int &sizeY);
+  unsigned int getXSize();
+  unsigned int getYSize();
+  bool testPos(const GridPos& pos) const;
+  bool testBody(const GridPos& pos) const;
+  bool testEmpty(const GridPos &pos) const;
+  void reset();
+
 }; // Game
 
 #endif // __GAME_H__

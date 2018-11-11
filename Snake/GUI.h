@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game.h"
+#include "AI_Easy.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -13,7 +14,7 @@ namespace Snake {
   using namespace System::Windows::Forms;
   using namespace System::Data;
   using namespace System::Drawing;
-
+   
   /// <summary>
   /// Summary for GUI
   /// </summary>
@@ -31,14 +32,18 @@ namespace Snake {
         windowSize.Y / gridDims.Y);
 
       // Setup game
-      game = new Game(this->gridDims.X, this->gridDims.Y);
-      
+      // with AI (todo: add choice once more than one type of AI is made)
+      this->ai = new AI_Easy();
+      game = new Game(
+        this->gridDims.X, 
+        this->gridDims.Y,
+        this->ai);
+
       srand(time(0));
 
       // Setup graphics
       snakeGraphics = gcnew List<PictureBox^>();
-      foodGraphics = gcnew PictureBox();
-      this->Controls->Add(foodGraphics);
+      foodGraphics = AddNewGraphicsObject(foodResource, { 0,0 });
     }
 
   protected:
@@ -74,6 +79,7 @@ namespace Snake {
 
     Point IndexToPixel(Point pixel);
     Point IndexToPixel(BodyPart pos);
+    PictureBox^ AddNewGraphicsObject(String^ resource, BodyPart location);
 
     //
     // Properties
@@ -86,7 +92,8 @@ namespace Snake {
 
     // The timer that performs game update
     System::Windows::Forms::Timer^  gameTimer;
-    unsigned int gameTickPeriod = 200; // The period of the game timer, in ms
+    unsigned int gameTickInitialPeriod = 200; // The period of the game timer, in ms
+    float gameTickSpeedupFactor = 1.5f; // The factor to speed up the timer per speedup instance
     Label^ msgBox;
 
     // The main game object
@@ -97,6 +104,10 @@ namespace Snake {
     List<PictureBox^>^ snakeGraphics;
     PictureBox^ foodGraphics;
     
+    // AI 
+    bool aiEnabled = false;
+    AI* ai;
+    Label^ aiStatusBox;
 
     // GUI Sizes
     Point windowSize = Point(640, 640); // Window size in pixels
@@ -107,6 +118,7 @@ namespace Snake {
     String^ snakeResource = gcnew String("./Resources/body.bmp");
     String^ foodResource = gcnew String("./Resources/food.bmp");
     String^ gameOverText = gcnew String("Game Over!\n\nClick to restart.");
+    String^ aiBoxText = gcnew String("AI Enabled");
 
 #pragma region Windows Form Designer generated code
     /// <summary>
@@ -122,8 +134,16 @@ namespace Snake {
       // gameTimer
       // 
       this->gameTimer->Tick += gcnew System::EventHandler(this, &GUI::FrameUpdate);
-      this->gameTimer->Interval = gameTickPeriod;
+      this->gameTimer->Interval = gameTickInitialPeriod;
       this->gameTimer->Start();
+      //
+      // aiBox
+      //
+      this->aiStatusBox = gcnew Label();
+      this->aiStatusBox->Location = Point(windowSize.X / 10, windowSize.Y / 10);
+      this->aiStatusBox->Text = aiBoxText;
+      this->aiStatusBox->Visible = 0;
+      this->Controls->Add(this->aiStatusBox);
       //
       // msgBox
       //
@@ -134,7 +154,7 @@ namespace Snake {
       this->msgBox->Visible = false;
       this->msgBox->TextAlign = ContentAlignment::MiddleCenter;
       this->msgBox->MouseClick += gcnew MouseEventHandler(this, &GUI::OnClickReset);
-      this->Controls->Add(this->msgBox);
+      this->Controls->Add(this->msgBox);      
       // 
       // GUI
       // 
