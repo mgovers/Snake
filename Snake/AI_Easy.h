@@ -8,9 +8,11 @@
 
 class AI_Easy : public AI
 {
-  private:
-    int findMove(Game& game);
-    std::vector<std::vector<int>> AI_Easy::createScentMap(Game &game);
+public:
+  int findMove(Game& game);
+
+private:    
+  std::vector<std::vector<int>> AI_Easy::createScentMap(Game &game);
 };
 
 

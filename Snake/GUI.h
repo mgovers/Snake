@@ -115,8 +115,10 @@ namespace Snake {
     Point gridSize;                     // Grid size, computed to fit the window
 
     // Resources
-    String^ snakeResource = gcnew String("./Resources/body.bmp");
-    String^ foodResource = gcnew String("./Resources/food.bmp");
+    Color backgroundColor = Color::DimGray;
+    Color messageBoxColor = Color::Wheat;
+    String^ snakeResource = gcnew String("./Resources/body.png");
+    String^ foodResource = gcnew String("./Resources/food.png");
     String^ gameOverText = gcnew String("Game Over!\n\nClick to restart.");
     String^ aiBoxText = gcnew String("AI Enabled");
 
@@ -129,6 +131,7 @@ namespace Snake {
     {
       this->components = (gcnew System::ComponentModel::Container());
       this->gameTimer = (gcnew System::Windows::Forms::Timer(this->components));
+      this->BackColor = backgroundColor;
       this->SuspendLayout();
       // 
       // gameTimer
@@ -140,6 +143,7 @@ namespace Snake {
       // aiBox
       //
       this->aiStatusBox = gcnew Label();
+      this->aiStatusBox->BackColor = messageBoxColor;
       this->aiStatusBox->Location = Point(windowSize.X / 10, windowSize.Y / 10);
       this->aiStatusBox->Text = aiBoxText;
       this->aiStatusBox->Visible = 0;
@@ -149,6 +153,7 @@ namespace Snake {
       //
       this->msgBox = (gcnew Label());
       this->msgBox->Location = Point(0,0);
+      this->msgBox->BackColor = messageBoxColor;
       this->msgBox->Size = System::Drawing::Size(windowSize.X, windowSize.Y);
       this->msgBox->Enabled = false;
       this->msgBox->Visible = false;
@@ -161,8 +166,8 @@ namespace Snake {
       this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
       this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
       this->ClientSize = System::Drawing::Size(windowSize.X, windowSize.Y);
-      this->Name = L"GUI";
-      this->Text = L"GUI";
+      this->Name = L"Snake AI";
+      this->Text = L"Snake AI";
       this->ResumeLayout(false);
 
       // Key Handling
