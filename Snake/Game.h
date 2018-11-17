@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Body.h"
-#include "AI.h"
 
 class Game {
  private:
@@ -15,8 +14,6 @@ class Game {
   Body body;
   // The food pieces
   std::vector<GridPos> targets;
-  // The AI
-  AI* ai;
 
   unsigned int getTargetIdx(const GridPos& pos) const;
 
@@ -27,9 +24,6 @@ class Game {
  public:
   Game(const unsigned int xSize_, const unsigned int ySize_) :
     xSize(xSize_), ySize(ySize_) {}
-  Game(const unsigned int xSize_, const unsigned int ySize_, AI* ai_) :
-    xSize(xSize_), ySize(ySize_), ai(ai_) {}
-  ~Game() { delete ai; }
 
   enum AITYPE
   {

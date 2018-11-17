@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="AI_Easy.cpp" />
     <ClCompile Include="Body.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Game.cpp" />
   </ItemGroup>
@@ -90,6 +91,7 @@
     <ClInclude Include="AI_Easy.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="GUI.h">
       <FileType>CppHeader</FileType>
     </ClInclude>

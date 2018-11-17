@@ -10,6 +10,7 @@ class AI_Easy : public AI
 {
 public:
   int findMove(Game& game);
+  void reset();
 
 private:    
   std::vector<std::vector<int>> AI_Easy::createScentMap(Game &game);

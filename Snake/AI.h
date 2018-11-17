@@ -8,6 +8,8 @@ class AI
 
   // Virtual function that returns the optimal move given a game
 	virtual int findMove(Game &game) = 0;
+
+  virtual void reset() = 0;
 };
 
 #endif

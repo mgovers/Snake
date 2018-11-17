@@ -2,6 +2,11 @@
 #include <algorithm>
 #include <iostream>
 
+void AI_Easy::reset() 
+{
+  // This AI has no memory and does not need to be reset
+}
+
 /// <summary>
 /// Returns the empty neighbors of the provided grid position. 4-connectivity.
 /// Additionally, its value of occupiedMap must be zero.
@@ -154,8 +159,6 @@ int AI_Easy::findMove(Game& game)
   auto maxElement = std::max_element(candidateScents.begin(), candidateScents.end());
   auto maxIdx = std::distance(candidateScents.begin(), maxElement);
   // Convert the next square into a direction
-  int direction = positionToDirection(game.getBody()[0], candidates[maxIdx]);;
-  std::cout << "AI direction: " << direction << std::endl;
   return positionToDirection(game.getBody()[0],candidates[maxIdx]);
 
 }

@@ -5,6 +5,7 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="AI_Easy.cpp" />
+    <ClCompile Include="GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Body.h" />
@@ -12,6 +13,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="AI.h" />
     <ClInclude Include="AI_Easy.h" />
+    <ClInclude Include="GameManager.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI.resx" />

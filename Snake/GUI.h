@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game.h"
+#include "GameManager.h"
 #include "AI_Easy.h"
 #include <cstdlib>
 #include <ctime>
@@ -23,6 +23,7 @@ namespace Snake {
   public:
     GUI(void)
     {
+      srand(time(0));
       // Initialize all GUI components
       InitializeComponent();
 
@@ -31,16 +32,10 @@ namespace Snake {
         windowSize.X / gridDims.X,
         windowSize.Y / gridDims.Y);
 
-      // Setup game
-      // with AI (todo: add choice once more than one type of AI is made)
-      this->ai = new AI_Easy();
-      game = new Game(
-        this->gridDims.X, 
-        this->gridDims.Y,
-        this->ai);
+      // Setup game and AI 
+      SetupGame();
 
-      srand(time(0));
-
+      
       // Setup graphics
       snakeGraphics = gcnew List<PictureBox^>();
       foodGraphics = AddNewGraphicsObject(foodResource, { 0,0 });
@@ -77,6 +72,8 @@ namespace Snake {
     // Methods
     //
 
+    void SetupGame();
+
     Point IndexToPixel(Point pixel);
     Point IndexToPixel(BodyPart pos);
     PictureBox^ AddNewGraphicsObject(String^ resource, BodyPart location);
@@ -97,7 +94,7 @@ namespace Snake {
     Label^ msgBox;
 
     // The main game object
-    Game* game;
+    GameManager* gameManager;
     unsigned int currentDirection = 0;     // The current direction input
 
     // All graphics objects present in the GUI

@@ -77,13 +77,3 @@ void Game::reset()
   this->body = Body();
   this->targets.clear();
 }
-
-int Game::computeAIMove()
-{
-  if (!this->ai)
-  {
-    // Error: no AI available
-    return -1;
-  }
-  return this->ai->findMove(*this);
-}
