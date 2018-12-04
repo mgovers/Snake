@@ -53,6 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\ThirdParty\Eigen;.\DeepLearningCore</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -81,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI_Easy.cpp" />
+    <ClCompile Include="AI_QLearn.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GUI.cpp" />
@@ -89,6 +91,7 @@
   <ItemGroup>
     <ClInclude Include="AI.h" />
     <ClInclude Include="AI_Easy.h" />
+    <ClInclude Include="AI_QLearn.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />

@@ -1,0 +1,6 @@
+﻿  TestDeepLearning.cpp
+c:\users\s137740\documents\visual studio 2017\projects\deeplearningcore\deeplearningcore\testdeeplearning.cpp(233): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  FullyConnectedLayer.cpp
+c:\users\s137740\documents\visual studio 2017\projects\deeplearningcore\deeplearningcore\fullyconnectedlayer.cpp(116): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Network.cpp
+c:\users\s137740\documents\visual studio 2017\projects\deeplearningcore\deeplearningcore\network.cpp(78): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
